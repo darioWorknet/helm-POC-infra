@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: proxy-deployment
+  labels:
+    app: proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: proxy
+  template:
+    metadata:
+      labels:
+        app: proxy
+    spec:
+      containers:
+      - name: proxy
+        image: localhost:5000/proxy:v0.0.1
+        ports:
+        - containerPort: 8000
+        env:
+        - name: WORKER_URL
+          value: "http://worker-svc:8001"
